@@ -1,5 +1,6 @@
 #! /bin/bash
 
+clear
 function menu() {
 while true ;
 do
@@ -11,6 +12,7 @@ echo "x - Exit"
 read x
 case $x in
 1)
+	clear
 	function search() {
 	while true
 	do
@@ -23,16 +25,19 @@ case $x in
 	read y
 	case $y in
 	e)
+                clear	
 		echo "Enter mail domain"
 		read mail
 		grep -i "@$mail" main_base
 	;;
 	p)
+		clear
 		echo "Enter mobile operator code"
 		read phone
 		grep "($phone)" main_base
 	;;
 	N)
+		clear
 		echo "Last Name"
 		awk '{print $2}' main_base >name_base
 		sort -u -i name_base
@@ -42,6 +47,7 @@ case $x in
 
 	;;
 	C)
+		clear		
 		echo "City"
 		awk '{print $6}' main_base >city_base
 		sort -u -i city_base
@@ -63,6 +69,7 @@ case $x in
 	search
 ;;
 2)
+	clear
 	function stat() {
 	while true
 	do
@@ -75,28 +82,32 @@ case $x in
 	read z
 	case $z in
 	e)
+		clear
 		echo "Enter mail domain"
 		awk '{print $5}' main_base >mail_base
 		sort -u -i mail_base
 		read mail
-		grep -i -c "@$mail" main_base
+		echo $mail " - " `grep -i -c "@$mail" main_base`
 		rm -f mail_base
 
 	;;
 	p)
+		clear
 		echo "Enter mobile operator code"
 		read phone
-		grep -c "($phone)" main_base 
+		echo $phone " - " `grep -c "($phone)" main_base` 
 	;;
 	C)
+		clear
 		echo "City statistics"
 		awk '{print $6}' main_base >city_base
 		sort -u -i city_base
 		read city
-		grep -i -c "$city" main_base	
+		echo $city " - " `grep -i -c "$city" main_base`	
 		rm -f city_base	
 	;;
 	y)
+		clear
 		echo "Age groap statistics"
 		awk '{print $3}' main_base >age_base
 		echo "age 0-21"
