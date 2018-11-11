@@ -77,7 +77,7 @@ case $x in
 	echo "e - Mail domain statistics"
 	echo "p - Statistics by mobile operator"
 	echo "C - City"
-	echo "y - Age peple"
+	echo "y - Age people"
 	echo "b - Come Back"
 	read z
 	case $z in
@@ -100,11 +100,28 @@ case $x in
 	C)
 		clear
 		echo "City statistics"
-		awk '{print $6}' main_base >city_base
-		sort -u -i city_base
-		read city
-		echo $city " - " `grep -i -c "$city" main_base`	
+		awk '{print $6}' main_base >city_oll 
+		all_city=`awk '{print $6}' main_base` 
+                touch city_base
+		for city in $all_city;
+		do
+		if grep -i "$city" city_base >/dev/null
+		then
+			continue
+		else
+		echo "$city" >> city_base
+		fi
+		done
+		while read line ;
+		do
+		C=`grep -ic "$line"  city_oll`
+		echo "$line" - "$C"
+		done < "city_base"
+		#sort -u -i city_base
+		#read city
+		#echo $city " - " `grep -i -c "$city" main_base`	
 		rm -f city_base	
+		rm -f city_oll
 	;;
 	y)
 		clear
