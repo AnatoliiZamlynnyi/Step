@@ -40,7 +40,7 @@ case $x in
 		clear
 		echo "Last Name"
 		awk '{print $2}' main_base >name_base
-		sort -u -i name_base
+		sort -ui name_base
 		read name
 		grep -i "$name" main_base	
 		rm -f name_base	
@@ -50,7 +50,18 @@ case $x in
 		clear		
 		echo "City"
 		awk '{print $6}' main_base >city_base
-		sort -u -i city_base
+		sort -ui city_base
+		all_city=`awk '{print $6}' main_base`
+                touch city_base
+		for city in $all_city;
+		do
+		if grep -i "$city" city_base >/dev/null
+		then
+			continue
+		else
+		echo "$city" >> city_base
+		fi
+		done < city_base
 		read city
 		grep -i "$city" main_base	
 		rm -f city_base	
@@ -83,25 +94,61 @@ case $x in
 	case $z in
 	e)
 		clear
-		echo "Enter mail domain"
-		awk '{print $5}' main_base >mail_base
-		sort -u -i mail_base
-		read mail
-		echo $mail " - " `grep -i -c "@$mail" main_base`
+		echo "Mail domain statistics"
+		awk '{print $5}' main_base >mail_oll
+		awk -F"@" '{print $2}' mail_oll >mail_temp
+		all_mail=`awk '{print $1}' mail_temp` 
+                touch mail_base
+		for mail in $all_mail;
+		do
+		if grep -ic "$mail" mail_base >/dev/null
+		then
+			continue
+		else
+		echo "$mail" >> mail_base
+		fi
+		done
+		while read line ;
+		do
+		M=`grep -ic "$line"  mail_temp`
+		echo "$line" - "$M"
+		done < "mail_base"
 		rm -f mail_base
+		rm -f mail_oll
+		rm -f mail_temp
 
 	;;
 	p)
 		clear
-		echo "Enter mobile operator code"
-		read phone
-		echo $phone " - " `grep -c "($phone)" main_base` 
+		echo "Mobile operator code"
+		awk '{print $4}' main_base >phone_oll 
+		awk -F"(" '{print $2}' phone_oll >phone_temp
+		awk -F")" '{print $1}' phone_temp >phone_oll
+		all_phone=`awk '{print $1}' phone_oll` 
+                touch phone_base
+		for phone in $all_phone;
+		do
+		if grep -c "$phone" phone_base >/dev/null
+		then
+			continue
+		else
+		echo "$phone" >> phone_base
+		fi
+		done
+		while read line ;
+		do
+		K=`grep -c "$line" phone_oll`
+		echo "$line" - "$K"
+		done < "phone_base"
+		rm -f phone_base
+		rm -f phone_oll
+		rm -f phone_temp
 	;;
 	C)
 		clear
 		echo "City statistics"
 		awk '{print $6}' main_base >city_oll 
-		all_city=`awk '{print $6}' main_base` 
+		all_city=`awk '{print $6}' main_base`
                 touch city_base
 		for city in $all_city;
 		do
@@ -117,9 +164,6 @@ case $x in
 		C=`grep -ic "$line"  city_oll`
 		echo "$line" - "$C"
 		done < "city_base"
-		#sort -u -i city_base
-		#read city
-		#echo $city " - " `grep -i -c "$city" main_base`	
 		rm -f city_base	
 		rm -f city_oll
 	;;
@@ -128,11 +172,11 @@ case $x in
 		echo "Age groap statistics"
 		awk '{print $3}' main_base >age_base
 		echo "age 0-21"
-		grep -c -e "^[0-9]$" -e "^[0-1][0-9]$" -e "^2[0-1]$" age_base	
+		grep -ce "^[0-9]$" -e "^[0-1][0-9]$" -e "^2[0-1]$" age_base	
 		echo "age 22-45"
-		grep -c -e "^2[2-9]$" -e "^3[0-9]$" -e "^4[0-5]$" age_base	
+		grep -ce "^2[2-9]$" -e "^3[0-9]$" -e "^4[0-5]$" age_base	
 		echo "age 46 or more"
-		grep -c -e "^4[6-9]$" -e "^[5-9][0-9]$" -e "^[0-9][0-9][0-9]$" age_base	
+		grep -ce "^4[6-9]$" -e "^[5-9][0-9]$" -e "^[0-9][0-9][0-9]$" age_base	
 		rm -f age_base	
 	;;
 	b)
