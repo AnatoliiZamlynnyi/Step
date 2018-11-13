@@ -1,6 +1,6 @@
 #! /bin/bash
 
-PLACE="Computer Academy STEP"
+PLACE=" Computer Academy STEP"
 DATE=`date +"%d-%m-%Y"`
 LOG=`sudo tail -10 /var/log/messages`
 RICH="\033[1m"
@@ -20,11 +20,11 @@ echo -e "$YELLOW Current User$END:$RICH$BLUE $USER $END"
 echo -e "$YELLOW User Home directory$END:$RICH$GREEN $HOME $END"
 echo -e "$YELLOW Logged In Users$END:$RICH$GREEN \n`w` $END"
 echo -e "$YELLOW Time Passed$END:$RICH$RED$FLASHING `uptime -p` $END"
-sleep 10
-echo -e "$YELLOW Disk Use$END:$RICH$GREEN \n `df -h` $END"
 sleep 5
-echo -e "$YELLOW Network Configuration$END:$RICH$GREEN \n`ifconfig` $END"
-sleep 5
-echo -e "$YELLOW Log Records Are Left$END:$AQUAMARINE\n $LOG $END" 
-sleep 5
+echo -e "$YELLOW Disk Use$END:$RICH$GREEN\n`df -h`$END"
+sleep 3
+echo -e "$YELLOW Network Configuration$END:$RICH$GREEN\n`ifconfig` $END"
+sleep 3
+echo -e "$YELLOW Log Records Are Left$END:$AQUAMARINE\n$LOG $END" 
+sleep 3
 

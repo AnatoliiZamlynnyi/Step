@@ -23,43 +23,47 @@ read a
 
 case $a in
 N)
-	echo "$HOSTNAME"
-	sleep 5
+	echo "Local host name:" - "$HOSTNAME"
+	sleep 3 
 	clear
 ;;
 U)
-	echo "$USER"
-	sleep 5
+	echo "Corrent User:" - "$USER"
+	sleep 3
 	clear
 ;;
 H)
-	echo "$HOME"
-	sleep 5
+	echo "User home directory:" - "$HOME"
+	sleep 3
 	clear
 ;;
 L)
+	echo "Logget in User"
 	w
-	sleep 5
+	sleep 3
 	clear
 ;;
 T)
-	uptime -p
-	sleep 5
+	echo "Time passed: "  `uptime -p`
+	sleep 3
 	clear
 ;;
 D)
+	echo "Disk use:"
 	df -h
-	sleep 5
+	sleep 3
 	clear
 ;;
 I)
+	echo "Network configuration:"
 	ifconfig
-	sleep 5
+	sleep 3
 	clear
 ;;
 S)
+	echo "Log records are left:"
 	sudo tail -10 /var/log/messages
-	sleep 5
+	sleep 3
 	clear
 ;;
 X)
